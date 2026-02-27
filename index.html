@@ -1,242 +1,291 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aura Car Rental</title>
-  <link rel="icon" href="images/CarLogo.png" type="image/x-icon">
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    body, html {
-      height: 100%;
-      margin: 0;
-	  background-color: rgba(0,0,0,0.5);  /*semi-transparent overlay */
-    }
-
-    /* Full-page background image */
-    .bg-image {
-      background: url('images/CarBanner.jpg') no-repeat center center;
-      background-size: cover;
-      height: 100%;
-    }
-	
-
-    /* Top navbar */
-    .navbar-custom {
-      width: 100%;
-      padding: 20px 50px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      
-    }
-
-    /* Make logo height match button */
-    .navbar-custom img {
-      height: 10rem; /* roughly matches Bootstrap btn-lg height */
-    }
-	/* Dark overlay on top of the image */
-	.navbar-custom img::before {
-		content: "";
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		background: rgba(0, 0, 0, 0.4); /* semi-transparent black */
-		z-index: 1;
-	}
-	.banner-text {
-		position: relative;
-		z-index: 2;
-		width: 50%; /* occupies left half */
-		color: white;
-	}
-	
-	.banner-text {
-		position: relative;
-		z-index: 2;
-		width: 50%; /* occupies left half */
-		color: white;
-	}
-
-	.banner-text h1 {
-		font-weight: 700; /* bold */
-		font-size: 2.5rem;
-		margin-bottom: 1rem;
-	}
-
-	.banner-text p {
-		font-weight: 300; /* lighter */
-		font-size: 1.1rem;
-	}
-
-	.banner-text .btn {
-		font-weight: 500;
-	} 
-	.footer {
-  height: 64px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 20px;
-  /*background-color: #000; */
-  color: #fff;
-  width: 100%;
-  position: fixed;  /* fixes it at bottom */
-  bottom: 0;        /* 0px from bottom */
-  left: 0;
-  right: 0;
-}
-
-
-	.footer a {
-  text-decoration: none;
-}
-
-.footer a:hover {
-  color: #0d6efd; /* bootstrap primary color on hover */
-}
-.social-icon {
-  height: 32px;  /* adjust size */
-  width: 32px;
-  object-fit: contain;
-}
-
-.social-icons a {
-  display: inline-block;
-}
-	/* Optional: fallback for very small screens */
-@media (max-width: 768px) {
-  .banner-text {
-    width: 90%; /* almost full width */
-  }
-  .banner-text h1 {
-    font-size: 6vw;
-  }
-  .banner-text p {
-    font-size: 3.5vw;
-  }
-  .banner-text .btn {
-    font-size: 4vw;
-  }
-}
-/* Responsive: on small screens, make icons and contact info side by side */
-@media (max-width: 768px) {
-  .footer-content {
-    flex-direction: row; /* keep side by side */
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .social-icons a {
-    margin-right: 8px;
-  }
-
-  .contact-info {
-    font-size: 0.85rem;
-  }
-}
-  </style> 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aura Car Rentals | Best Premium Car Hire in Eluru</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            scroll-behavior: smooth;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .pastel-gradient {
+            background: linear-gradient(135deg, #fdf4ff 0%, #f0f9ff 100%);
+        }
+        .aura-text-gradient {
+            background: linear-gradient(to right, #ed3a8a, #7c3aed, #2563eb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .car-image-container {
+            position: relative;
+            overflow: hidden;
+            background: #f8fafc;
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        @media (min-width: 768px) {
+            .car-image-container { height: 260px; }
+        }
+        .loader {
+            width: 24px;
+            height: 24px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #7c3aed;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
 </head>
-<body>
-<div class="bg-image">
-  <!-- Top navbar -->
-  <div class="navbar-custom">
-    <img src="images/CarLogo.png" alt="Logo">
-    <!-- Book Now Button -->
-<a href="#" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#bookNowModal">
-  Book Now
-</a>
-  </div>
-  <!-- Modal -->
-<div class="modal fade" id="bookNowModal" tabindex="-1" aria-labelledby="bookNowModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="bookNowModalLabel">Book Your Car</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form id="whatsappForm">
-          <div class="mb-3">
-            <label for="mobileNumber" class="form-label">Enter your mobile number</label>
-            <input type="tel" class="form-control" id="mobileNumber" placeholder="e.g., 9876543210" required>
-          </div>
-          <button type="submit" class="btn btn-success w-100">Send WhatsApp Message</button>
-        </form>
-      </div>
+<body class="bg-white text-slate-800">
+
+    <!-- Mobile-Friendly Navigation -->
+    <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-slate-100 top-0">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <div class="flex justify-between h-20 items-center">
+                <!-- Logo -->
+                <a href="/" class="flex flex-col">
+                    <h1 class="text-2xl font-black tracking-tighter aura-text-gradient leading-none">AURA</h1>
+                    <span class="text-[8px] font-bold tracking-[0.3em] text-slate-500 uppercase">Car Rentals</span>
+                </a>
+                
+                <div class="hidden md:flex space-x-8 text-sm font-semibold text-slate-600">
+                    <a href="#home" class="hover:text-purple-600 transition-colors">Home</a>
+                    <a href="#fleet" class="hover:text-purple-600 transition-colors">Our Fleet</a>
+                    <a href="#gallery" class="hover:text-purple-600 transition-colors">Gallery</a>
+                </div>
+
+                <button onclick="bookOnWhatsApp('General Inquiry')" class="bg-slate-900 text-white px-5 py-2.5 rounded-full text-sm font-bold hover:bg-slate-800 active:scale-95 transition-all shadow-md">
+                    Contact Us
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="pt-32 pb-16 px-4 pastel-gradient min-h-[75vh] flex items-center">
+        <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-10 items-center">
+            <div class="space-y-6 text-center lg:text-left">
+                <div class="inline-block px-3 py-1 rounded-full bg-white/60 border border-white text-pink-600 text-xs font-bold uppercase tracking-wider">
+                    Official: auracarrentals.in
+                </div>
+                <h2 class="text-4xl md:text-6xl font-extrabold text-slate-900 leading-tight">
+                    Drive the <span class="aura-text-gradient">Aura</span> of Luxury.
+                </h2>
+                <p class="text-base md:text-lg text-slate-600 leading-relaxed max-w-xl mx-auto lg:mx-0">
+                    Premium car rental services in Eluru. Starting from ₹2,000/day for 5-seaters and ₹4,000/day for 7-seaters. Your journey, our responsibility.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                    <a href="#fleet" class="px-8 py-4 bg-slate-900 text-white rounded-2xl font-bold hover:bg-slate-800 text-center transition-all shadow-xl">
+                        View Fleet
+                    </a>
+                    <button onclick="bookOnWhatsApp('Booking from Website')" class="px-8 py-4 bg-white text-slate-900 rounded-2xl font-bold border border-slate-200 hover:bg-slate-50 text-center transition-all">
+                        Check Availability
+                    </button>
+                </div>
+            </div>
+            <div class="hidden lg:block relative">
+                <div class="w-full aspect-[4/3] bg-white/40 rounded-[3rem] overflow-hidden flex items-center justify-center border border-white relative shadow-2xl" id="hero-image-box">
+                   <div class="loader"></div>
+                </div>
+                <div class="absolute -bottom-6 -right-6 bg-white p-5 rounded-3xl shadow-xl border border-slate-50 flex items-center gap-3">
+                    <div class="w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center">
+                        <i data-lucide="shield-check" class="text-emerald-600 w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <p class="text-[10px] text-slate-400 font-bold uppercase">Verified Service</p>
+                        <p class="text-sm font-bold">100% Secure Booking</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fleet Section -->
+    <section id="fleet" class="py-20 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-12 space-y-3">
+                <h3 class="text-3xl font-bold text-slate-900">Choose Your Ride</h3>
+                <p class="text-slate-500 text-sm">Select from our well-maintained premium fleet based in Eluru.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8" id="car-list">
+                <!-- Cars rendered by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="py-20 px-4 bg-slate-50">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-10">
+                <h3 class="text-2xl font-bold text-slate-900">Experience Aura</h3>
+                <p class="text-slate-500 text-sm">Quality you can see.</p>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="gallery-grid">
+                <div class="aspect-square bg-white rounded-3xl flex items-center justify-center border border-slate-100 shadow-sm"><div class="loader"></div></div>
+                <div class="aspect-square bg-white rounded-3xl flex items-center justify-center border border-slate-100 shadow-sm"><div class="loader"></div></div>
+                <div class="aspect-square bg-white rounded-3xl flex items-center justify-center border border-slate-100 shadow-sm"><div class="loader"></div></div>
+                <div class="aspect-square bg-white rounded-3xl flex items-center justify-center border border-slate-100 shadow-sm"><div class="loader"></div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mobile Floating WhatsApp Action -->
+    <div class="fixed bottom-6 right-6 z-50 md:hidden">
+        <button onclick="bookOnWhatsApp('Instant Inquiry')" class="bg-emerald-500 text-white p-4 rounded-full shadow-2xl animate-pulse flex items-center justify-center">
+            <i data-lucide="message-circle" class="w-6 h-6"></i>
+        </button>
     </div>
-  </div>
-</div>
 
-  <!-- Text overlay immediately below navbar -->
-  <div class="container banner-text-container">
-    <div class="banner-text">
-      <h1>Premium Self-Drive @ Chauffeur Car Rentals in Eluru</h1>
-      <p>Explore fleet of 5 & 7 seaters for your journey, Daily, Weekly and Monthly plans available.</p>
-    </div>
-  </div>
-  <!-- Footer -->
-<footer class="footer text-white py-4">
-  <div class="container d-flex justify-content-between align-items-center flex-wrap">
-    <!-- Left: social media icons -->
-     <div class="social-icons">
-    <a href="https://www.instagram.com/aura_car_rentals?igsh=MWo1bGRwbTFtOTZqcA==" target="_blank" class="me-3">
-      <img src="images/instagram.svg" alt="Instagram" class="social-icon">
-    </a>
-	<!--
-    <a href="https://www.instagram.com/aura_car_rentals?igsh=MWo1bGRwbTFtOTZqcA==" target="_blank">
-      <img src="images/youtube.svg" alt="WhatsApp" class="social-icon">
-    </a>
-	-->
-  </div>
+    <!-- Footer -->
+    <footer class="bg-slate-950 text-white py-16 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid md:grid-cols-3 gap-12 items-start text-center md:text-left mb-12">
+                <!-- Brand -->
+                <div class="space-y-4">
+                    <div class="flex flex-col items-center md:items-start">
+                        <h1 class="text-3xl font-black tracking-tighter aura-text-gradient">AURA</h1>
+                        <span class="text-[10px] font-bold tracking-[0.4em] text-slate-400 uppercase">Car Rentals</span>
+                    </div>
+                    <p class="text-slate-400 text-sm">The most trusted premium car rental service in Eluru. Comfort and elegance for every trip.</p>
+                </div>
 
-    <!-- Right: contact info -->
-   <div class="contact-info text-end">
-	Mail: auracarrentalseluru@gmail.com <br/>Phone: +91-6302814440,+91-9014141554
-</div>
+                <!-- Address -->
+                <div class="space-y-4">
+                    <h4 class="text-xs font-bold uppercase tracking-widest text-slate-500">Find Us</h4>
+                    <p class="text-slate-300 text-sm leading-relaxed">
+                        Door No: 23-B-3-46,<br>
+                        Near Fire Station, R.R.Peta,<br>
+                        Eluru, Andhra Pradesh 534002
+                    </p>
+                    <a href="https://maps.app.goo.gl/sCZJWcor7JnFi5Z2A" target="_blank" class="inline-flex items-center gap-2 text-sky-400 text-xs font-bold hover:underline">
+                        <i data-lucide="map-pin" class="w-4 h-4"></i> View on Google Maps
+                    </a>
+                </div>
 
-</footer>
-<script>
-document.getElementById('whatsappForm').addEventListener('submit', function(e) {
-  e.preventDefault(); // prevent form from submitting normally
+                <!-- Contact -->
+                <div class="space-y-4">
+                    <h4 class="text-xs font-bold uppercase tracking-widest text-slate-500">Contact</h4>
+                    <div class="space-y-2 text-sm text-slate-300">
+                        <p class="flex items-center justify-center md:justify-start gap-2">
+                            <i data-lucide="phone" class="w-4 h-4 text-pink-500"></i> +91 6302814440
+                        </p>
+                        <p class="flex items-center justify-center md:justify-start gap-2">
+                            <i data-lucide="phone" class="w-4 h-4 text-purple-500"></i> +91 9014141554
+                        </p>
+                        <p class="flex items-center justify-center md:justify-start gap-2 pt-2">
+                            <i data-lucide="mail" class="w-4 h-4 text-blue-500"></i> auracarrentalseluru@gmail.com
+                        </p>
+                    </div>
+                </div>
+            </div>
 
-  const mobile = document.getElementById('mobileNumber').value.trim();
-  if(mobile === "") {
-    alert("Please enter your mobile number.");
-    return;
-  }
+            <div class="pt-12 border-t border-slate-900 w-full text-center">
+                <p class="text-[10px] text-slate-600 uppercase tracking-widest">www.auracarrentals.in • © 2024 • Made with Pride in Eluru</p>
+            </div>
+        </div>
+    </footer>
 
-  // WhatsApp number to send message to (your business number)
-  const businessNumber = "916302814440"; // Replace with your WhatsApp number with country code
+    <script>
+        const apiKey = "";
+        // --- UPDATED: ACTUAL BUSINESS WHATSAPP NUMBER ---
+        const WHATSAPP_NUMBER = "916302814440"; 
 
-  // Message to send
-  const message = `Hello, I want to book a car. My mobile number is ${mobile}`;
+        const cars = [
+            { id: 1, name: "Hyundai i20 Diesel", price: "2,000", seats: 5, specs: "Manual • Diesel", prompt: "A white Hyundai i20 diesel hatchback, side view, clean white studio background, professional lighting" },
+            { id: 2, name: "Swift Diesel", price: "2,000", seats: 5, specs: "Manual • Diesel", prompt: "A silver Maruti Suzuki Swift diesel, side view, clean white studio background, professional lighting" },
+            { id: 3, name: "Ertiga 2022 Model", price: "4,000", seats: 7, specs: "Manual/Auto • Petrol", prompt: "A premium 2022 Maruti Suzuki Ertiga MPV, side view, clean white studio background, high quality" },
+            { id: 4, name: "Hyundai Alcazar Petrol", price: "4,000", seats: 7, specs: "Automatic • Petrol", prompt: "A luxury dark blue Hyundai Alcazar 7-seater SUV, side view, clean white studio background, professional" }
+        ];
 
-  // WhatsApp link
-  const whatsappURL = `https://wa.me/${businessNumber}?text=${encodeURIComponent(message)}`;
+        function bookOnWhatsApp(carName) {
+            const message = encodeURIComponent(`Hi Aura Car Rentals! I am visiting your website auracarrentals.in and I want to book the ${carName}. Please share availability.`);
+            window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${message}`, '_blank');
+        }
 
-  // Open WhatsApp link in new tab
-  window.open(whatsappURL, "_blank");
+        async function fetchImage(prompt) {
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/imagen-4.0-generate-001:predict?key=${apiKey}`;
+            const payload = { instances: [{ prompt: prompt }], parameters: { sampleCount: 1 } };
+            
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const data = await response.json();
+                return `data:image/png;base64,${data.predictions[0].bytesBase64Encoded}`;
+            } catch (e) {
+                return null;
+            }
+        }
 
-  // Close the modal
-  const modal = bootstrap.Modal.getInstance(document.getElementById('bookNowModal'));
-  modal.hide();
+        async function init() {
+            lucide.createIcons();
+            renderCars();
+            
+            // Hero
+            fetchImage("A premium car with flowing lines in a high-end minimalist showroom, soft pastel glow").then(img => {
+                if (img) document.getElementById('hero-image-box').innerHTML = `<img src="${img}" class="w-full h-full object-cover">`;
+            });
 
-  // Optional: reset form
-  document.getElementById('whatsappForm').reset();
-});
-</script>
+            // Gallery
+            const gallerySlots = document.getElementById('gallery-grid').children;
+            const galleryPrompts = ["Close up of car interior luxury", "Premium car wheel design", "Aerial shot of car on a highway", "Luxury car front grill detail"];
+            for(let i=0; i < gallerySlots.length; i++) {
+                fetchImage(galleryPrompts[i]).then(img => {
+                    if (img) gallerySlots[i].innerHTML = `<img src="${img}" class="w-full h-full object-cover rounded-3xl">`;
+                });
+            }
+        }
 
-<!-- Add Font Awesome -->
-<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+        function renderCars() {
+            const carList = document.getElementById('car-list');
+            carList.innerHTML = cars.map(car => `
+                <div class="bg-white rounded-[2.5rem] p-6 border border-slate-100 shadow-sm hover:shadow-xl transition-all group">
+                    <div class="car-image-container rounded-3xl mb-6 shadow-inner" id="car-img-${car.id}">
+                        <div class="loader"></div>
+                    </div>
+                    <div class="flex justify-between items-end mb-6">
+                        <div class="space-y-1">
+                            <span class="text-[10px] font-extrabold text-purple-600 bg-purple-50 px-3 py-1 rounded-full uppercase tracking-wider">${car.seats} Seater</span>
+                            <h4 class="text-2xl font-bold text-slate-900">${car.name}</h4>
+                            <p class="text-slate-400 text-xs font-medium">${car.specs}</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-[10px] text-slate-400 font-bold uppercase tracking-tighter">Day Rate</p>
+                            <p class="text-3xl font-black text-slate-900">₹${car.price}</p>
+                        </div>
+                    </div>
+                    <button onclick="bookOnWhatsApp('${car.name}')" class="w-full py-4 rounded-2xl bg-slate-900 text-white font-bold hover:bg-slate-800 active:scale-95 transition-all flex items-center justify-center gap-3 shadow-lg shadow-slate-200">
+                        <i data-lucide="message-circle" class="w-5 h-5"></i> Book on WhatsApp
+                    </button>
+                </div>
+            `).join('');
+            
+            lucide.createIcons();
+            loadCarImages();
+        }
 
+        async function loadCarImages() {
+            for (const car of cars) {
+                fetchImage(car.prompt).then(img => {
+                    const container = document.getElementById(`car-img-${car.id}`);
+                    if (img) container.innerHTML = `<img src="${img}" class="w-full h-full object-contain p-4" alt="${car.name}">`;
+                    else container.innerHTML = `<div class="text-slate-300 text-xs">Image Loading...</div>`;
+                });
+            }
+        }
 
-</div>
-
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+        window.onload = init;
+    </script>
 </body>
 </html>
