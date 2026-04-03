@@ -4,139 +4,149 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Aura Car Rentals | Book Now</title>
+<title>Aura Car Rentals</title>
 
 <script src="https://cdn.tailwindcss.com"></script>
 
 <style>
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: 'Segoe UI', sans-serif;
 }
-.car-image-container {
-    height: 180px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+
+/* Gradient Background */
+.bg-main {
+    background: linear-gradient(135deg, #fdf4ff, #eff6ff);
+}
+
+/* Card hover */
+.card:hover {
+    transform: translateY(-8px);
+    transition: 0.3s;
 }
 </style>
 </head>
 
-<body class="bg-gray-50">
+<body class="bg-main">
 
-<!-- NAV -->
-<div class="bg-white shadow p-4 flex justify-between">
-    <h1 class="text-xl font-bold">AURA CAR RENTALS</h1>
-    <button onclick="bookOnWhatsApp('General Inquiry')" class="bg-black text-white px-4 py-2 rounded">
-        Contact
-    </button>
-</div>
-
-<!-- HERO -->
-<div class="text-center py-8">
-    <h2 class="text-3xl font-bold">Book Your Car Now</h2>
-    <p class="text-gray-500">Premium cars in Eluru</p>
+<!-- HEADER -->
+<div class="text-center py-10">
+    <h1 class="text-4xl font-bold text-pink-600">Aura Car Rentals</h1>
+    <p class="text-gray-500">Premium Self Drive Cars in Eluru</p>
 </div>
 
 <!-- CAR LIST -->
-<div id="car-list" class="grid md:grid-cols-2 gap-6 p-4 max-w-6xl mx-auto"></div>
+<div id="car-list" class="grid md:grid-cols-2 gap-8 px-6 max-w-6xl mx-auto"></div>
+
+<!-- ENQUIRY SECTION -->
+<div id="booking-section" class="hidden mt-16 max-w-xl mx-auto bg-white p-6 rounded-xl shadow-lg">
+
+    <h2 class="text-xl font-bold mb-4 text-blue-600">Book Your Car</h2>
+
+    <input id="userName" type="text" placeholder="Your Name" class="w-full mb-3 p-3 border rounded">
+    <input id="userPhone" type="tel" placeholder="Phone Number" class="w-full mb-3 p-3 border rounded">
+    <input id="userLocation" type="text" placeholder="Pickup Location" class="w-full mb-3 p-3 border rounded">
+
+    <label class="text-sm">Pickup Date</label>
+    <input id="pickupDate" type="date" class="w-full mb-3 p-3 border rounded">
+
+    <label class="text-sm">Return Date</label>
+    <input id="returnDate" type="date" class="w-full mb-3 p-3 border rounded">
+
+    <p id="daysText" class="text-sm text-gray-500 mb-3"></p>
+
+    <button onclick="submitBooking()" class="w-full bg-green-600 text-white py-3 rounded-lg font-bold">
+        Enquiry on WhatsApp
+    </button>
+</div>
 
 <script>
 
 const WHATSAPP_NUMBER = "916302814440";
 
+let selectedCar = null;
+
 const cars = [
-    { id: 1, name: "Hyundai i20", price: 2000, specs: "Manual • Diesel" },
-    { id: 2, name: "Maruti Swift", price: 2000, specs: "Manual • Diesel" },
-    { id: 3, name: "Maruti Ertiga", price: 4000, specs: "Manual/Auto • Petrol" },
-    { id: 4, name: "Hyundai Alcazar", price: 4000, specs: "Automatic • Petrol" }
+    { id: 1, name: "Hyundai i20", price: 2000, img: "images/i20.png" },
+    { id: 2, name: "Maruti Swift", price: 2000, img: "images/swift.png" },
+    { id: 3, name: "Maruti Ertiga", price: 4000, img: "images/ertiga.png" },
+    { id: 4, name: "Hyundai Alcazar", price: 4000, img: "images/alcazar.png" }
 ];
 
-const images = {
-    1: "images/i20.png",
-    2: "images/swift.png",
-    3: "images/ertiga.png",
-    4: "images/alcazar.png"
-};
-
-function bookOnWhatsApp(text) {
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`, '_blank');
-}
-
 function renderCars() {
-    const carList = document.getElementById("car-list");
+    const container = document.getElementById("car-list");
 
-    carList.innerHTML = cars.map(car => `
-        <div class="bg-white rounded-xl shadow p-4">
+    container.innerHTML = cars.map(car => `
+        <div class="bg-white rounded-xl shadow-lg p-5 card">
 
-            <div class="car-image-container">
-                <img src="${images[car.id]}" class="w-full h-full object-contain">
-            </div>
+            <img src="${car.img}" class="w-full h-40 object-contain">
 
-            <h3 class="text-xl font-bold mt-2">${car.name}</h3>
-            <p class="text-gray-500">${car.specs}</p>
-            <p class="font-bold mt-2">₹${car.price}/day</p>
+            <h3 class="text-xl font-bold mt-3">${car.name}</h3>
+            <p class="text-gray-500">₹${car.price}/day</p>
 
-            <div class="mt-4 space-y-2">
-
-                <input type="text" placeholder="Your Name" id="name-${car.id}" class="w-full border p-2 rounded">
-
-                <input type="tel" placeholder="Phone Number" id="phone-${car.id}" class="w-full border p-2 rounded">
-
-                <input type="text" placeholder="Pickup Location" id="location-${car.id}" class="w-full border p-2 rounded">
-
-                <input type="date" id="pickup-${car.id}" class="w-full border p-2 rounded">
-
-                <input type="date" id="return-${car.id}" class="w-full border p-2 rounded">
-
-                <button onclick="bookNow(${car.id})" class="w-full bg-green-600 text-white py-2 rounded">
-                    Book on WhatsApp
-                </button>
-
-            </div>
-
+            <button onclick="selectCar(${car.id})"
+                class="mt-4 w-full bg-gradient-to-r from-pink-500 to-blue-500 text-white py-2 rounded-lg font-bold">
+                Book Now
+            </button>
         </div>
     `).join('');
 }
 
-function bookNow(carId) {
-    const car = cars.find(c => c.id === carId);
+function selectCar(id) {
+    selectedCar = cars.find(c => c.id === id);
 
-    const name = document.getElementById(`name-${carId}`).value;
-    const phone = document.getElementById(`phone-${carId}`).value;
-    const location = document.getElementById(`location-${carId}`).value;
-    const pickup = document.getElementById(`pickup-${carId}`).value;
-    const drop = document.getElementById(`return-${carId}`).value;
+    document.getElementById("booking-section").classList.remove("hidden");
+
+    window.scrollTo({
+        top: document.getElementById("booking-section").offsetTop,
+        behavior: "smooth"
+    });
+}
+
+// Auto calculate days
+document.getElementById("pickupDate").addEventListener("change", calcDays);
+document.getElementById("returnDate").addEventListener("change", calcDays);
+
+function calcDays() {
+    const p = new Date(document.getElementById("pickupDate").value);
+    const r = new Date(document.getElementById("returnDate").value);
+
+    if (p && r && r > p) {
+        const days = Math.ceil((r - p) / (1000 * 60 * 60 * 24));
+        document.getElementById("daysText").innerText = "Total Days: " + days;
+    }
+}
+
+function submitBooking() {
+    const name = document.getElementById("userName").value;
+    const phone = document.getElementById("userPhone").value;
+    const location = document.getElementById("userLocation").value;
+    const pickup = document.getElementById("pickupDate").value;
+    const drop = document.getElementById("returnDate").value;
 
     if (!name || !phone || !pickup || !drop) {
-        alert("Please fill all details");
+        alert("Fill all details");
         return;
     }
 
-    const days = Math.ceil((new Date(drop) - new Date(pickup)) / (1000 * 60 * 60 * 24));
+    const days = Math.ceil((new Date(drop) - new Date(pickup)) / (1000*60*60*24));
+    const total = days * selectedCar.price;
 
-    if (days <= 0) {
-        alert("Invalid dates");
-        return;
-    }
-
-    const total = days * car.price;
-
-    const message = `
-🚗 *Aura Car Booking*
+    const msg = `
+🚗 Aura Car Booking
 
 👤 Name: ${name}
 📱 Phone: ${phone}
 📍 Location: ${location}
 
-🚘 Car: ${car.name}
+🚘 Car: ${selectedCar.name}
 📅 Pickup: ${pickup}
 📅 Return: ${drop}
 🗓 Days: ${days}
 
-💰 Total Price: ₹${total}
-`;
+💰 Total: ₹${total}
+    `;
 
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, '_blank');
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
 }
 
 renderCars();
