@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aura Car Rentals | Best Premium Car Hire in Eluru</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            scroll-behavior: smooth;
+        }
+        .aura-text-gradient {
+            background: linear-gradient(to right, #ed3a8a, #7c3aed, #2563eb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .car-image-container {
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+
+<body class="bg-white text-slate-800">
+
+<!-- NAV -->
+<nav class="fixed w-full bg-white shadow z-50">
+    <div class="max-w-7xl mx-auto px-4 flex justify-between h-16 items-center">
+        <h1 class="text-xl font-bold aura-text-gradient">AURA</h1>
+        <button onclick="bookOnWhatsApp('General Inquiry')" class="bg-black text-white px-4 py-2 rounded-lg">Contact</button>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section class="pt-24 pb-10 text-center">
+    <h2 class="text-4xl font-bold">Premium Car Rentals</h2>
+    <p class="text-gray-500 mt-2">Best service in Eluru</p>
+</section>
+
+<!-- CARS -->
+<section class="px-4 pb-16">
+    <div class="grid md:grid-cols-2 gap-6 max-w-6xl mx-auto" id="car-list"></div>
+</section>
+
+<script>
+const WHATSAPP_NUMBER = "916302814440";
+
+const cars = [
+    { id: 1, name: "Hyundai i20", price: "2000", seats: 5, specs: "Manual • Diesel" },
+    { id: 2, name: "Maruti Swift", price: "2000", seats: 5, specs: "Manual • Diesel" },
+    { id: 3, name: "Maruti Ertiga", price: "4000", seats: 7, specs: "Manual/Auto • Petrol" },
+    { id: 4, name: "Hyundai Alcazar", price: "4000", seats: 7, specs: "Automatic • Petrol" }
+];
+
+function bookOnWhatsApp(carName) {
+    const msg = `Hi, I want to book ${carName}`;
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
+}
+
+function renderCars() {
+    const carList = document.getElementById("car-list");
+
+    const images = {
+        1: "images/i20.png",
+        2: "images/swift.png",
+        3: "images/ertiga.png",
+        4: "images/alcazar.png"
+    };
+
+    carList.innerHTML = cars.map(car => `
+        <div class="bg-white rounded-xl shadow p-4">
+            <div class="car-image-container">
+                <img src="${images[car.id]}" class="w-full h-full object-contain">
+            </div>
+
+            <h3 class="text-xl font-bold mt-3">${car.name}</h3>
+            <p class="text-gray-500">${car.specs}</p>
+
+            <div class="flex justify-between items-center mt-4">
+                <span class="font-bold text-lg">₹${car.price}/day</span>
+                <button onclick="bookOnWhatsApp('${car.name}')" 
+                        class="bg-blue-600 text-white px-4 py-2 rounded-lg">
+                    Book
+                </button>
+            </div>
+        </div>
+    `).join('');
+}
+
+renderCars();
+</script>
+
+</body>
+</html>
